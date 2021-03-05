@@ -68,18 +68,30 @@
   </script>
 </head>
 <body>
-  <center><h1>SunnyPath</h1></center>
+  <section class="bgpicture bg-dark">
+
+      <div class="container text-center">
+        <br/><br/><br/>
+        <div class="row">
+          <br/>
+          <center><h1 class="titre bg-warning">Sunny Path</h1></center>
+          <br/>
+        </div>
+      </div>
+    </section>
+
   <div class="container">
     <div class="row">
       <div class="col-sm">
-        <br/><br/><br/>
+        <br/>
         <center>
           <form class="bg-light" action="resultat.php" method="post">
             <div class="form-group">
               <label class="form-label">Ville de destination</label>
-              <input type="text" class="form-control" id="ville" name="ville">
+              <input type="text" class="form-control" id="ville" name="ville" required="required">
               <div class="form-text">Fait pour les villes du pays basque</div>
             </div>
+            <br>
             <div class="form-group">
               <label>Moyen de transport</label>
               <select class="form-select" data-show-content="true" id="selTransport" name="locomotion">
@@ -88,13 +100,14 @@
                 <option>Voiture</option>
               </select>
             </div>
+            <br>
             <div class="form-group">
-              <label>Heure d'arrivée</label>
+              <label>Heure de départ</label>
               <select class="form-select" id="heuresSelect" name=heure>
-
               </select>
             </div>
-            <button type="submit" class="btn btn-primary">Valider</button>
+            <br>
+            <button type="submit" class="btn btn-warning">Valider</button>
           </form>
         </center>
       </div>
@@ -112,24 +125,19 @@
       </div>
     </div>
   </div>
-  <footer class="footer bg-light">
-      <center>
-      <br/>
-      <div class="container">
-        <span class="text-muted">Site Développé par Miguel Viegas et Romain Salha</span>
-      </div>
-    </center>
-  </footer>
+  
   <script>
     function activerRechercheVille() {
+      var options = {types: ['(cities)'], componentRestrictions: {country: "fr"}};
+
       var input = document.getElementById('ville');
-      var autocomplete = new google.maps.places.autocomplete(input);
+      var autocomplete = new google.maps.places.Autocomplete(input, options);
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
   <script async
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzl_oUp19b_ro2ixp1t_5SMj6NNUppBoM&libraries=places&callback=activerRechercheVille">
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </body>
 
 </html>

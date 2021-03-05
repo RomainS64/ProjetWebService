@@ -1,6 +1,21 @@
 footer {
     position: fixed;
-    height: 100px;
+    height: 60px;
     bottom: 0;
     width: 100%;
+    opacity: 70%;
+}
+
+.bgpicture{
+    background-image: url(bg.jpg);
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    height: 180px;
+}
+
+.titre{
+  font-family: "Arial Black", Arial, Verdana, sans-serif;
+  border-radius: 10px;
+  width: 25%;
 }
