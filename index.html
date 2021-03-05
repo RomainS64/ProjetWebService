@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Projet</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  </head>
+  <body onload="javascript:init()">
+
+    <script>
+
+    function init() {
+      if (window.XMLHttpRequest) {
+          req = new XMLHttpRequest();
+      } else if (window.ActiveXObject) {
+          isIE = true;
+          req = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+
+      req.onreadystatechange = processRequest;
+
+      req.open("GET", "https://api.ip2loc.com/szOZhZv9cvU0wvsBCRR9rPAjYa6qBj77/detect", true);
+      req.send(null);
+
+      function processRequest() {
+        if (req.readyState == 4) {
+          if (req.status == 200) {
+
+              var reponse = req.responseText;
+              reponseParse = JSON.parse(reponse);
+              document.getElementById("resultat").innerHTML = "<br/><h1>Météo chez vous à " + reponseParse.location.city + " : </h1>";
+          }
+        }
+      }
+    }
+
+    </script>
+    <span id="resultat"></span>
+  </body>
+</html>
