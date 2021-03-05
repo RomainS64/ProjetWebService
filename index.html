@@ -1,38 +1,156 @@
 <html>
-  <head>
-    <title>Projet</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-  </head>
-  <body onload="javascript:init()">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link href="style.css" rel="stylesheet">
+  <title>SunnyPath</title>
+  <script>
 
-    <script>
+  window.onload = function load() {
+    determinerHeure();
+  }
 
-    function init() {
-      if (window.XMLHttpRequest) {
-          req = new XMLHttpRequest();
-      } else if (window.ActiveXObject) {
-          isIE = true;
-          req = new ActiveXObject("Microsoft.XMLHTTP");
+  function determinerHeure(){
+    var now = new Date();
+    var heure = document.getElementById("heuresSelect");
+
+    for(var i = now.getHours();i<24;i++){
+      heure.innerHTML += "<option>"+i+":00-"+(i+1)+":00"+
+      "</option";
+    }
+  }
+
+  function init() {
+    if (window.XMLHttpRequest) {
+      req = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+      isIE = true;
+      req = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+  }
+
+  function recupererVille() {
+    init();
+    req.onreadystatechange = processRequest;
+    req.open("GET", "https://api.ip2loc.com/szOZhZv9cvU0wvsBCRR9rPAjYa6qBj77/detect", true);
+    req.send(null);
+
+    function processRequest() {
+      if (req.readyState == 4) {
+        if (req.status == 200) {
+          var reponse = req.responseText;
+          reponseParse = JSON.parse(reponse);
+          var ville = reponseParse.location.city;
+          document.getElementById("resultats").innerHTML = "<br/>Vous êtes à : " + ville;
+        }
       }
+    }
 
+    function afficherInfosGen() {
+      init();
       req.onreadystatechange = processRequest;
-
-      req.open("GET", "https://api.ip2loc.com/szOZhZv9cvU0wvsBCRR9rPAjYa6qBj77/detect", true);
+      req.open("GET", "https://sunnypath/...", true);
       req.send(null);
 
       function processRequest() {
         if (req.readyState == 4) {
           if (req.status == 200) {
-
-              var reponse = req.responseText;
-              reponseParse = JSON.parse(reponse);
-              document.getElementById("resultat").innerHTML = "<br/><h1>Météo chez vous à " + reponseParse.location.city + " : </h1>";
+            var reponse = req.responseText;
+            reponseParse = JSON.parse(reponse);
+            document.getElementById("resultats").innerHTML = "<br/>Vous êtes à : " + ville;
           }
         }
       }
     }
+  }
 
-    </script>
-    <span id="resultat"></span>
-  </body>
+  </script>
+</head>
+<body>
+  <center><h1>SunnyPath</h1></center>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <br/><br/><br/>
+        <center>
+          <form class="bg-light" action="resultat.php" method="post">
+            <div class="form-group">
+              <label class="form-label">Ville de destination</label>
+              <input type="text" class="form-control" id="ville" name="ville">
+              <div class="form-text">Fait pour les villes du pays basque</div>
+            </div>
+            <div class="form-group">
+              <label>Moyen de transport</label>
+              <select class="form-select" data-show-content="true" id="selTransport" name="locomotion">
+                <option>Bus</option>
+                <option>Vélo</option>
+                <option>Voiture</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Heure d'arrivée</label>
+              <select class="form-select" id="heuresSelect" name=heure>
+
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Valider</button>
+          </form>
+        </center>
+      </div>
+      <div class="col-sm">
+        <br/><br/><br/>
+        <center class="bg-light">
+          <span id="resultats"><h2>ATTENTION !!! ⚠️</h2></span>
+          <br/>
+          <p>Les info de notre WebService ici</p>
+          <br/>
+          <p>Les info de notre WebService ici</p>
+          <br/>
+          <p>Les info de notre WebService ici</p>
+        </center>
+      </div>
+    </div>
+  </div>
+  <footer class="footer bg-light">
+      <center>
+      <br/>
+      <div class="container">
+        <span class="text-muted">Site Développé par Miguel Viegas et Romain Salha</span>
+      </div>
+    </center>
+  </footer>
+  <script>
+    function activerRechercheVille() {
+      var input = document.getElementById('ville');
+      var autocomplete = new google.maps.places.autocomplete(input);
+    }
+  </script>
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzl_oUp19b_ro2ixp1t_5SMj6NNUppBoM&libraries=places&callback=activerRechercheVille">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+</body>
+
 </html>
+
+<script>
+/*
+
+function afficherMeteo(){
+initRequest();
+req.onreadystatechange = processRequest;
+req.open("GET", "http://api.weatherstack.com/forecast?access_key=c0301a7f3d7a8dc7139207f96b862336&query=" + ville, true);
+req.send(null);
+
+function processRequest() {
+if (req.readyState == 4) {
+if (req.status == 200) {
+
+var reponse = req.responseText;
+reponseParse = JSON.parse(reponse);
+document.getElementById("meteo").innerHTML = "<br/>Température : " + reponseParse.current.temperature;
+}
+}
+}
+}
