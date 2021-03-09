@@ -11,11 +11,11 @@ footer {
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: cover; /* Resize the background image to cover the entire container */
-    height: 180px;
+    height: 220px;
 }
 
 .titre{
   font-family: "Arial Black", Arial, Verdana, sans-serif;
+  font-size: 70px;
   border-radius: 10px;
-  width: 25%;
 }

@@ -9,15 +9,16 @@
 
   window.onload = function load() {
     determinerHeure();
+    recupererInfoTrajets();
   }
 
   function determinerHeure(){
     var now = new Date();
-    var heure = document.getElementById("heuresSelect");
+    var heure = document.getElementById("horaire");
 
     for(var i = now.getHours();i<24;i++){
       heure.innerHTML += "<option>"+i+":00-"+(i+1)+":00"+
-      "</option";
+      "</option>";
     }
   }
 
@@ -29,7 +30,44 @@
       req = new ActiveXObject("Microsoft.XMLHTTP");
     }
   }
+  function recupererInfoTrajets(){
+    // ancien code de compatibilité, aujourd’hui inutile
+    if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+...
+      httpRequest = new XMLHttpRequest();
+    }
+    else if (window.ActiveXObject) { // IE 6 et antérieurs
+      httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+    }
 
+    fichier = "API/GET.php?locomotion=voiture"
+    httpRequest.open("GET", fichier, false);
+    httpRequest.send(null);
+    if (httpRequest.readyState == 4) {
+      nbVoiture = httpRequest.responseText;
+    }
+
+    fichier = "API/GET.php?locomotion=bus"
+    httpRequest.open("GET", fichier, false);
+    httpRequest.send(null);
+    if (httpRequest.readyState == 4) {
+      nbBus = httpRequest.responseText;
+    }
+
+    fichier = "API/GET.php?locomotion=velo"
+    httpRequest.open("GET", fichier, false);
+    httpRequest.send(null);
+    if (httpRequest.readyState == 4) {
+      nbVelo = httpRequest.responseText;
+    }
+
+    var resultats = document.getElementById("resultats");
+
+    resultats.innerHTML+=
+    "<br/><p>"
+    +nbVoiture+" prennent déjà la Voiture</p><br/><p>"
+    +nbBus+" prennent déjà le Bus</p><br/><p>"
+    +nbVelo+" prennent déjà le vélo</p><br/>"
+  }
   function recupererVille() {
     init();
     req.onreadystatechange = processRequest;
@@ -74,7 +112,7 @@
         <br/><br/><br/>
         <div class="row">
           <br/>
-          <center><h1 class="titre bg-warning">Sunny Path</h1></center>
+          <center><h1 class="titre text-white">Sunny Path</h1></center>
           <br/>
         </div>
       </div>
@@ -85,7 +123,7 @@
       <div class="col-sm">
         <br/>
         <center>
-          <form class="bg-light" action="resultat.php" method="post">
+          <form class="bg-light" action="resultat.php" method="get">
             <div class="form-group">
               <label class="form-label">Ville de destination</label>
               <input type="text" class="form-control" id="ville" name="ville" required="required">
@@ -94,16 +132,16 @@
             <br>
             <div class="form-group">
               <label>Moyen de transport</label>
-              <select class="form-select" data-show-content="true" id="selTransport" name="locomotion">
+              <select class="form-select" data-show-content="true" id="locomotion" name="locomotion">
                 <option>Bus</option>
-                <option>Vélo</option>
+                <option>Velo</option>
                 <option>Voiture</option>
               </select>
             </div>
             <br>
             <div class="form-group">
               <label>Heure de départ</label>
-              <select class="form-select" id="heuresSelect" name=heure>
+              <select class="form-select" id="horaire" name="horaire">
               </select>
             </div>
             <br>
@@ -114,18 +152,15 @@
       <div class="col-sm">
         <br/><br/><br/>
         <center class="bg-light">
-          <span id="resultats"><h2>ATTENTION !!! ⚠️</h2></span>
-          <br/>
-          <p>Les info de notre WebService ici</p>
-          <br/>
-          <p>Les info de notre WebService ici</p>
-          <br/>
-          <p>Les info de notre WebService ici</p>
+          <span id="resultats"><h2>ATTENTION !!! ⚠️</h2>
+          <h3>Aujourd'hui dans le pays basque,</h3>
+          </span>
+
         </center>
       </div>
     </div>
   </div>
-  
+
   <script>
     function activerRechercheVille() {
       var options = {types: ['(cities)'], componentRestrictions: {country: "fr"}};
