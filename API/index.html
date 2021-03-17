@@ -1,0 +1,38 @@
+
+<html>
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>SunnyPath documentation</title>
+  </head>
+  <body>
+    <center>
+    <h1>Documentation SunnyPath</h1>
+    <h2>GET</h2>
+    <br/>
+    <hr>
+    <p>
+      http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php?locomotion=<b>MoyenDeLocomotion</b>
+    </p>
+    <p><b>MoyenDeLocomotion</b>: velo/bus/voiture</p>
+    <p>retourne le nombres de personne ayant pris le <b>Moyen De Locomotion</b> dans la journée.</p>
+    <hr>
+    <br/>
+    <p>http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php?ville=<b>Ville</b></p>
+    <p><b>Ville</b>: ville en minuscule</p>
+    <p>retourne le nombres de personne ayant voyagé dans <b>La Ville</b> dans la journée.</p>
+    <hr>
+    <br/>
+    <p>http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php?horaire=<b>Horaire</b></p>
+    <p><b>Horaire</b>: horaire de voyage (ex: 15 pour 15h-16H)</p>
+    <p>retourne le nombres de personne ayant voyagé dans <b>L'Horaire</b> cité, dans la journée.</p>
+    <hr>
+    <br/>
+    <br/>
+    <p>Les options <b>MoyenDeLocomotion</b>,<b>MoyenDeLocomotion</b> et <b>MoyenDeLocomotion</b> sont cumulable</p>
+    <p>par exemple:</p>
+    <p>http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php?horaire=<b>Horaire</b>&ville=<b>Ville</b></p>
+    <p>va renvoyer le nombre de voyageur de la ville <b>Ville</b> à l'horaire <b>Horaire</b></p>
+    <hr>
+    </center>
+  </body>
+</html>
