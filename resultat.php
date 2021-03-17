@@ -7,10 +7,7 @@
   <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
   <title>SunnyPath</title>
-
   <script>
-
-
   window.onload = function load() {
     recupererInfoTrajets();
     meteo();
@@ -69,64 +66,77 @@
     info.innerHTML = "<center class=\"text-success\"><H1>Attention</H1>,<H2>  personne ne prend le "+locomotion+" pour aller à "+ville+" à "+horaire+"h.</H2></center>";
 
   }
-  function init1() {
-    if (window.XMLHttpRequest) {
-      req1 = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-      isIE = true;
-      req1 = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-  }
-
   function initMap() {
   const directionsService = new google.maps.DirectionsService();
   const directionsRenderer = new google.maps.DirectionsRenderer();
   const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 7,
-    center: { lat: 43.28, lng: -1.30 },
+    zoom: 12,
+    center: { lat: 43.481402, lng: -1.514699 },
   });
   directionsRenderer.setMap(map);
-}
-
+  calculateAndDisplayRoute(directionsService, directionsRenderer);
+ }
 
   function calculateAndDisplayRoute(directionsService, directionsRenderer) {
-  directionsService.route(
-    {
-      origin: {
-        query: "Anglet",
-      },
-      destination: {
-        query: ville,
-      },
-      travelMode: google.maps.TravelMode.DRIVING,
-    },
-    (response, status) => {
-      if (status === "OK") {
-        directionsRenderer.setDirections(response);
-      } else {
-        window.alert("Directions request failed due to " + status);
-      }
-    }
-  );
-}
+    if (locomotion == "bus") {
+        directionsService.route(
+          {
+            origin: {
+              query: "Anglet",
+            },
+            destination: {
+              query: ville,
+            },
+            travelMode: google.maps.TravelMode.TRANSIT,
+          },
+          (response, status) => {
+            if (status === "OK") {
+              directionsRenderer.setDirections(response);
+            } else {
+              window.alert("Directions request failed due to " + status);
+            }
+          }
+        );
+      } else if (locomotion == "voiture") {
+        directionsService.route(
+          {
+            origin: {
+              query: "Anglet",
+            },
+            destination: {
+              query: ville,
+            },
+            travelMode: google.maps.TravelMode.DRIVING,
+          },
+          (response, status) => {
+            if (status === "OK") {
+              directionsRenderer.setDirections(response);
+            } else {
+              window.alert("Directions request failed due to " + status);
+            }
+          }
+        );
+      } else if (locomotion == "velo") {
+        directionsService.route(
+          {
+            origin: {
+              query: "Anglet",
+            },
+            destination: {
+              query: ville,
+            },
+            travelMode: google.maps.TravelMode.BICYCLING,
+          },
+          (response, status) => {
+            if (status === "OK") {
+              directionsRenderer.setDirections(response);
+            } else {
+              window.alert("Directions request failed due to " + status);
+            }
+          }
+        );
+      }}
 
-  function trajet() {
-    init1();
-    req1.onreadystatechange = processRequest;
-    req1.open("GET", "https://maps.googleapis.com/maps/api/directions/json?origin=Anglet&destination="+ville+"&key=AIzaSyDzl_oUp19b_ro2ixp1t_5SMj6NNUppBoM", true);
-    req1.send(null);
-
-    function processRequest() {
-      if (req1.readyState == 4) {
-        if (req1.status == 200) {
-          var reponse = req1.responseText;
-          reponseParse = JSON.parse(reponse);
-          var duree = reponseParse.routes[0].legs[0].distance.text;
-          document.getElementById("resultats").innerHTML = "<br/>Vous êtes à : " + duree + " de " + ville;
-        }
-      }
-    }
-  }
   function meteo(){
     if (window.XMLHttpRequest) {
        request = new XMLHttpRequest();
@@ -142,10 +152,20 @@
           var reponse = request.responseText;
           reponseParse = JSON.parse(reponse);
           document.getElementById("meteo").innerHTML =
-          reponseParse.weather[0].description+"<br/>"+
-          "icon:"+reponseParse.weather[0].icon+"<br/>"+
-          "humidité:"+reponseParse.main.humidity+"<br/>"+
-          "température"+reponseParse.main.temp;
+
+          "<div class=\"card\" style=\"width: 18rem;\">"+
+          "<img src=\"http://openweathermap.org/img/w/"+reponseParse.weather[0].icon+".png\" class=\"card-img-top\">"+
+          "<div class=\"card-body\">"+
+          "<h5 class=\"card-title\">"+reponseParse.name+"</h5>"+
+          "<p class=\"card-text\">"+reponseParse.weather[0].description+"</p>"+
+          "</div>"+
+          "<ul class=\"list-group list-group-flush\">"+
+          "<li class=\"list-group-item\">Humidity - "+reponseParse.main.humidity+"%</li>"+
+          "<li class=\"list-group-item\">Temperature - "+Math.round(eval(reponseParse.main.temp+"-273")) +"°C</li>"+
+          "<li class=\"list-group-item\">Vent - "+ reponseParse.wind.speed+"km/h</li>"+
+          "</ul>"+
+           "</div>";
+
 
         }
       }
@@ -167,16 +187,21 @@
       </div>
     </section>
     <span id="infoPersonnes" ></span>
+    <br>
     <div class="container">
       <div class="row">
         <div class="col-sm">
+          <hr>
           <p>Trajet pour aller à <?php echo($_GET['ville']);?> en <?php echo($_GET['locomotion']);?></p>
           <span id="resultats"></span><br>
           <div id="map"></div>
+          <hr>
         </div>
         <div class="col-sm">
+          <hr>
           <p>Météo à <?php echo($_GET['ville']);?></p>
           <span id="meteo"></span>
+          <hr>
         </div>
       </div>
     </div>
@@ -185,6 +210,21 @@
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzl_oUp19b_ro2ixp1t_5SMj6NNUppBoM&callback=initMap&libraries=&v=weekly"
       async
     ></script>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <footer class="bg-light text-center text-lg-start">
+      <!-- Copyright -->
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        <a class="text-dark" href="http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/">Documentation WebService SunnyPath</a>
+      </div>
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2021 (NO)Copyright:
+        <a class="text-dark" href="https://sohny64.itch.io/">Miguel Viegas</a> et <a class="text-dark" href="https://romains.itch.io/">Romain Salha</a>
+      </div>
+  <!-- Copyright -->
+</footer>
   </body>
 
   </html>
