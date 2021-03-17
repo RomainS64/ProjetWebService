@@ -59,11 +59,11 @@
     }
     var info = document.getElementById("infoPersonnes");
     if(nbPersonnes >1)
-    info.innerHTML = "<center class=\"text-danger\"><H1>Attention</H1>,<H2>"+nbPersonnes+"  personnes prennent déjà le "+locomotion+" pour aller à "+ville+" à "+horaire+"h.</H2></center>";
+    info.innerHTML = "<center><div class=\"alert alert-danger\" role=\"alert\">Attention, "+nbPersonnes+"  personnes prennent déjà le "+locomotion+" pour aller à "+ville+" à "+horaire+"h.</div></center>"
     else if(nbPersonnes == 1)
-    info.innerHTML = "<center class=\"text-warning\"><H1>Attention</H1>,<H2>"+nbPersonnes+"  personne prend déjà le "+locomotion+" pour aller à "+ville+" à "+horaire+"h.</H2></center>";
+    info.innerHTML ="<center><div class=\"alert alert-warning\" role=\"alert\">Attention, "+nbPersonnes+"  personne prend déjà le "+locomotion+" pour aller à "+ville+" à "+horaire+"h.</div></center>"
     else
-    info.innerHTML = "<center class=\"text-success\"><H1>Attention</H1>,<H2>  personne ne prend le "+locomotion+" pour aller à "+ville+" à "+horaire+"h.</H2></center>";
+    info.innerHTML ="<center><div class=\"alert alert-warning\" role=\"alert\">personne ne voyage.</div></center>"
 
   }
   function initMap() {
@@ -152,7 +152,6 @@
           var reponse = request.responseText;
           reponseParse = JSON.parse(reponse);
           document.getElementById("meteo").innerHTML =
-
           "<div class=\"card\" style=\"width: 18rem;\">"+
           "<img src=\"http://openweathermap.org/img/w/"+reponseParse.weather[0].icon+".png\" class=\"card-img-top\">"+
           "<div class=\"card-body\">"+
@@ -164,8 +163,7 @@
           "<li class=\"list-group-item\">Temperature - "+Math.round(eval(reponseParse.main.temp+"-273")) +"°C</li>"+
           "<li class=\"list-group-item\">Vent - "+ reponseParse.wind.speed+"km/h</li>"+
           "</ul>"+
-           "</div>";
-
+          "</div>";
 
         }
       }
