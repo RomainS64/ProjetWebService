@@ -44,21 +44,24 @@
     httpRequest.open("GET", fichier, false);
     httpRequest.send(null);
     if (httpRequest.readyState == 4) {
-      nbVoiture = httpRequest.responseText;
+      var reponse = httpRequest.responseText;
+      nbVoiture = JSON.parse(reponse).result;
     }
 
     fichier = "API/GET.php?locomotion=bus"
     httpRequest.open("GET", fichier, false);
     httpRequest.send(null);
     if (httpRequest.readyState == 4) {
-      nbBus = httpRequest.responseText;
+      var reponse = httpRequest.responseText;
+      nbBus = JSON.parse(reponse).result;
     }
 
     fichier = "API/GET.php?locomotion=velo"
     httpRequest.open("GET", fichier, false);
     httpRequest.send(null);
     if (httpRequest.readyState == 4) {
-      nbVelo = httpRequest.responseText;
+      var reponse = httpRequest.responseText;
+      nbVelo = JSON.parse(reponse).result;
     }
 
     var resultats = document.getElementById("resultats");

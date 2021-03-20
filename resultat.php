@@ -55,7 +55,8 @@
     httpRequest.send(null);
 
     if (httpRequest.readyState == 4) {
-      nbPersonnes = httpRequest.responseText;
+      var reponse = httpRequest.responseText;
+      nbPersonnes = JSON.parse(reponse).result;
     }
     var info = document.getElementById("infoPersonnes");
     if(nbPersonnes >1)

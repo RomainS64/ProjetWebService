@@ -15,7 +15,7 @@
   if(isset($_GET["ville"]))$ville = $_GET["ville"];
   if(isset($_GET["locomotion"]))$locomotion = $_GET["locomotion"];
   if(isset($_GET["horaire"]))$horaire = $_GET["horaire"];
-  
+
     if(isset($_GET["ville"]) && isset($_GET["horaire"]) && isset($_GET["locomotion"])){
       // les 3
         $requeteSQL = "SELECT count(*)
@@ -70,7 +70,9 @@
     $resultat = $connexion->query($requeteSQL);
 
     foreach ($resultat as $returnCount ) {
-    echo "$returnCount[0]";
+    $arr = array();
+    $arr["result"]=$returnCount[0];
+    echo json_encode($arr);
     }
 
   ?>
