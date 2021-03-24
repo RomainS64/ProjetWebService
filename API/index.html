@@ -1,38 +1,147 @@
 
 <html>
-  <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <title>SunnyPath documentation</title>
-  </head>
-  <body>
-    <center>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <title>Documentation SunnyPath</title>
+</head>
+<body>
+  <div class="container">
     <h1>Documentation SunnyPath</h1>
     <h2>GET</h2>
-    <br/>
+    <br>
     <hr>
+    <h3>SunnyPath c'est quoi?</h3>
     <p>
-      http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php?locomotion=<b>MoyenDeLocomotion</b>
+      SunnyPath est un webservice qui permet aux habitants de la côte Basque de connaître le nombre de personnes allant aux même endroit qu'eux en utiisant le même moyen de locomotion.
     </p>
-    <p><b>MoyenDeLocomotion</b>: velo/bus/voiture</p>
-    <p>retourne le nombres de personne ayant pris le <b>Moyen De Locomotion</b> dans la journée.</p>
+    <pre>
+      <code>
+      http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php
+    </code>
+  </pre>
+    <br>
     <hr>
-    <br/>
-    <p>http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php?ville=<b>Ville</b></p>
-    <p><b>Ville</b>: ville en minuscule</p>
-    <p>retourne le nombres de personne ayant voyagé dans <b>La Ville</b> dans la journée.</p>
+    <br>
+    <pre>
+      <code>
+      http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php?locomotion=<b>MoyenDeLocomotion</b>
+    </code>
+  </pre>
+    <p>
+      <b>MoyenDeLocomotion</b>: velo/bus/voiture
+    </p>
+    <p>
+      Retourne le nombre de personnes ayant pris le <b>Moyen De Locomotion</b> dans la journée.
+    </p>
+    <pre>
+      <code>
+      {
+        "result":
+        "78"
+      }
+    </code>
+  </pre>
+<br>
     <hr>
-    <br/>
-    <p>http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php?horaire=<b>Horaire</b></p>
-    <p><b>Horaire</b>: horaire de voyage (ex: 15 pour 15h-16H)</p>
-    <p>retourne le nombres de personne ayant voyagé dans <b>L'Horaire</b> cité, dans la journée.</p>
+<br>
+    <pre>
+      <code>
+      http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php?ville=<b>Ville</b>
+    </code>
+  </pre>
+
+    <p>
+      <b>Ville</b>: ville en minuscule
+    </p>
+    <p>
+      Retourne le nombre de personnes ayant voyagé dans la <b>Ville</b> dans la journée.
+    </p>
+    <pre>
+      <code>
+      {
+        "result":
+        "24"
+      }
+    </code>
+  </pre>
+  <br>
     <hr>
-    <br/>
-    <br/>
-    <p>Les options <b>MoyenDeLocomotion</b>,<b>MoyenDeLocomotion</b> et <b>MoyenDeLocomotion</b> sont cumulable</p>
-    <p>par exemple:</p>
-    <p>http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php?horaire=<b>Horaire</b>&ville=<b>Ville</b></p>
-    <p>va renvoyer le nombre de voyageur de la ville <b>Ville</b> à l'horaire <b>Horaire</b></p>
+<br>
+    <pre>
+      <code>
+      http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php?horaire=<b>Horaire</b>
+    </code>
+  </pre>
+
+    <p>
+      <b>Horaire</b>: horaire de voyage (ex: 15 pour 15h-16H)
+    </p>
+    <p>
+      Retourne le nombre de personnes ayant voyagé dans l'<b>Horaire</b> cité, dans la journée.
+    </p>
+    <pre>
+      <code>
+      {
+        "result":
+        "8"
+      }
+    </code>
+  </pre>
+    <br>
     <hr>
+    <br>
+
+    <p>
+      Les options <b>Horaire</b>, <b>MoyenDeLocomotion</b> et <b>Ville</b> sont cumulables
+    </p>
+    <p>
+      Par exemple:
+    </p>
+
+    <pre>
+      <code>
+      http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php?horaire=<b>Horaire</b>&ville=<b>Ville</b>
+    </code>
+  </pre>
+
+    <p>
+      Va renvoyer le nombre de voyageurs de la ville <b>Ville</b> à l'horaire <b>Horaire</b>
+    </p>
+    <pre>
+      <code>
+      {
+        "result":
+        "14"
+      }
+    </code>
+  </pre>
+    <center>
+      <br>
+      <hr width="50%">
+      <br>
     </center>
-  </body>
+    <pre>
+      <code>
+      http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/GET.php?horaire=<b>Horaire</b>&ville=<b>Ville</b>&locomotion=<b>MoyenDeLocomotion</b>
+    </code>
+  </pre>
+
+    <p>
+      Va renvoyer le nombre de voyageurs de la ville <b>Ville</b> à l'horaire <b>Horaire</b> utilisant le moyen de locomotion <b>MoyenDeLocomotion</b>
+    </p>
+    <pre>
+      <code>
+      {
+        "result":
+        "3"
+      }
+    </code>
+  </pre>
+  <br>
+    <hr>
+    <br>
+  </div>
+
+</body>
 </html>

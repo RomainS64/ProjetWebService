@@ -4,6 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   <link href="style.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo.PNG" />
   <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
   <title>SunnyPath</title>
@@ -68,164 +69,180 @@
 
   }
   function initMap() {
-  const directionsService = new google.maps.DirectionsService();
-  const directionsRenderer = new google.maps.DirectionsRenderer();
-  const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 12,
-    center: { lat: 43.481402, lng: -1.514699 },
-  });
-  directionsRenderer.setMap(map);
-  calculateAndDisplayRoute(directionsService, directionsRenderer);
- }
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 12,
+      center: { lat: 43.481402, lng: -1.514699 },
+    });
+    directionsRenderer.setMap(map);
+    calculateAndDisplayRoute(directionsService, directionsRenderer);
+  }
 
   function calculateAndDisplayRoute(directionsService, directionsRenderer) {
     if (locomotion == "bus") {
-        directionsService.route(
-          {
-            origin: {
-              query: "Anglet",
-            },
-            destination: {
-              query: ville,
-            },
-            travelMode: google.maps.TravelMode.TRANSIT,
+      directionsService.route(
+        {
+          origin: {
+            query: "Anglet",
           },
-          (response, status) => {
-            if (status === "OK") {
-              directionsRenderer.setDirections(response);
-            } else {
-              window.alert("Directions request failed due to " + status);
-            }
-          }
-        );
-      } else if (locomotion == "voiture") {
-        directionsService.route(
-          {
-            origin: {
-              query: "Anglet",
-            },
-            destination: {
-              query: ville,
-            },
-            travelMode: google.maps.TravelMode.DRIVING,
+          destination: {
+            query: ville,
           },
-          (response, status) => {
-            if (status === "OK") {
-              directionsRenderer.setDirections(response);
-            } else {
-              window.alert("Directions request failed due to " + status);
-            }
+          travelMode: google.maps.TravelMode.TRANSIT,
+        },
+        (response, status) => {
+          if (status === "OK") {
+            directionsRenderer.setDirections(response);
+          } else {
+            window.alert("Directions request failed due to " + status);
           }
-        );
-      } else if (locomotion == "velo") {
-        directionsService.route(
-          {
-            origin: {
-              query: "Anglet",
-            },
-            destination: {
-              query: ville,
-            },
-            travelMode: google.maps.TravelMode.BICYCLING,
+        }
+      );
+    } else if (locomotion == "voiture") {
+      directionsService.route(
+        {
+          origin: {
+            query: "Anglet",
           },
-          (response, status) => {
-            if (status === "OK") {
-              directionsRenderer.setDirections(response);
-            } else {
-              window.alert("Directions request failed due to " + status);
-            }
+          destination: {
+            query: ville,
+          },
+          travelMode: google.maps.TravelMode.DRIVING,
+        },
+        (response, status) => {
+          if (status === "OK") {
+            directionsRenderer.setDirections(response);
+          } else {
+            window.alert("Directions request failed due to " + status);
           }
-        );
-      }}
+        }
+      );
+    } else if (locomotion == "velo") {
+      directionsService.route(
+        {
+          origin: {
+            query: "Anglet",
+          },
+          destination: {
+            query: ville,
+          },
+          travelMode: google.maps.TravelMode.BICYCLING,
+        },
+        (response, status) => {
+          if (status === "OK") {
+            directionsRenderer.setDirections(response);
+          } else {
+            window.alert("Directions request failed due to " + status);
+          }
+        }
+      );
+    }}
 
-  function meteo(){
-    if (window.XMLHttpRequest) {
-       request = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-      request = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    request.onreadystatechange = processRequest;
-    request.open("GET","https://api.openweathermap.org/data/2.5/weather?q="+ville+"&appid=f046cd5c58a1628bc709bfbd7be520ba", true);
-    request.send(null);
-    function processRequest() {
-      if (request.readyState == 4) {
-        if (request.status == 200) {
-          var reponse = request.responseText;
-          reponseParse = JSON.parse(reponse);
-          document.getElementById("meteo").innerHTML =
-          "<div class=\"card\" style=\"width: 18rem;\">"+
-          "<img src=\"http://openweathermap.org/img/w/"+reponseParse.weather[0].icon+".png\" class=\"card-img-top\">"+
-          "<div class=\"card-body\">"+
-          "<h5 class=\"card-title\">"+reponseParse.name+"</h5>"+
-          "<p class=\"card-text\">"+reponseParse.weather[0].description+"</p>"+
-          "</div>"+
-          "<ul class=\"list-group list-group-flush\">"+
-          "<li class=\"list-group-item\">Humidity - "+reponseParse.main.humidity+"%</li>"+
-          "<li class=\"list-group-item\">Temperature - "+Math.round(eval(reponseParse.main.temp+"-273")) +"°C</li>"+
-          "<li class=\"list-group-item\">Vent - "+ reponseParse.wind.speed+"km/h</li>"+
-          "</ul>"+
-          "</div>";
+    function meteo(){
+      if (window.XMLHttpRequest) {
+        request = new XMLHttpRequest();
+      } else if (window.ActiveXObject) {
+        request = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      request.onreadystatechange = processRequest;
+      request.open("GET","https://api.openweathermap.org/data/2.5/weather?q="+ville+"&appid=f046cd5c58a1628bc709bfbd7be520ba", true);
+      request.send(null);
+      function processRequest() {
+        if (request.readyState == 4) {
+          if (request.status == 200) {
+            var reponse = request.responseText;
+            reponseParse = JSON.parse(reponse);
+            document.getElementById("icon").innerHTML =
+            "<div class=\"card\" style=\"height: 300px;\">"+
+            "<img src=\"http://openweathermap.org/img/w/"+reponseParse.weather[0].icon+".png\" class=\"card-img-top\">"+
+            "</div>";
 
+            document.getElementById("meteo").innerHTML =
+            "<div class=\"card\" style=\"height: 300px;\">"+
+            "<div class=\"card-body\">"+
+            "<br><br>"+
+            "<h5 class=\"card-title\">"+reponseParse.name+"</h5>"+
+            "<p class=\"card-text\">"+reponseParse.weather[0].description+"</p>"+
+            "</div>"+
+            "<ul class=\"list-group list-group-flush\">"+
+            "<li class=\"list-group-item\">Humidity - "+reponseParse.main.humidity+"%</li>"+
+            "<li class=\"list-group-item\">Temperature - "+Math.round(eval(reponseParse.main.temp+"-273")) +"°C</li>"+
+            "<li class=\"list-group-item\">Wind Speed - "+ reponseParse.wind.speed+"km/h</li>"+
+            "</ul>"+
+            "</div>";
+
+          }
         }
       }
+
     }
 
-  }
+    </script>
 
-  </script>
-
-  <body>
-    <section class="bgpicture bg-dark " >
-      <div class="container text-center">
-        <br/><br/><br/>
+    <body>
+      <section class="bgpicture bg-dark " >
+        <div class="container text-center">
+          <br/><br/><br/>
+          <div class="row">
+            <br/>
+            <center><h1 class="titre text-white" ><a href="index.html" style="text-decoration: none; color: white;">Sunny Path</a></h1></center>
+            <br/>
+          </div>
+        </div>
+      </section>
+      <span id="infoPersonnes" ></span>
+      <br>
+      <div class="container">
         <div class="row">
-          <br/>
-          <center><h1 class="titre text-white" >Sunny Path</h1></center>
-          <br/>
+          <div class="col-sm">
+            <hr>
+            <p>Trajet pour aller à <?php echo($_GET['ville']);?> en <?php echo($_GET['locomotion']);?></p>
+            <span id="resultats"></span><br>
+            <div id="map"></div>
+            <hr>
+          </div>
+          <div class="col-sm">
+            <hr>
+            <p>Météo à <?php echo($_GET['ville']);?></p>
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-6">
+                  <br>
+                  <span id="icon"></span>
+                </div>
+                <div class="col-sm-6">
+                  <br>
+                  <span id="meteo"></span>
+                </div>
+              </div>
+            </div>
+            <hr>
+          </div>
         </div>
       </div>
-    </section>
-    <span id="infoPersonnes" ></span>
-    <br>
-    <div class="container">
-      <div class="row">
-        <div class="col-sm">
-          <hr>
-          <p>Trajet pour aller à <?php echo($_GET['ville']);?> en <?php echo($_GET['locomotion']);?></p>
-          <span id="resultats"></span><br>
-          <div id="map"></div>
-          <hr>
-        </div>
-        <div class="col-sm">
-          <hr>
-          <p>Météo à <?php echo($_GET['ville']);?></p>
-          <span id="meteo"></span>
-          <hr>
-        </div>
-      </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    <script
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+      <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzl_oUp19b_ro2ixp1t_5SMj6NNUppBoM&callback=initMap&libraries=&v=weekly"
       async
-    ></script>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <footer class="bg-light text-center text-lg-start">
-      <!-- Copyright -->
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        <a class="text-dark" href="http://iparla.iutbayonne.univ-pau.fr/~rsalha/WebService/projet/API/">Documentation WebService SunnyPath</a>
-      </div>
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        © 2021 (NO)Copyright:
-        <a class="text-dark" href="https://sohny64.itch.io/">Miguel Viegas</a> et <a class="text-dark" href="https://romains.itch.io/">Romain Salha</a>
-      </div>
-  <!-- Copyright -->
-</footer>
-  </body>
+      ></script>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <footer class="bg-light text-center text-lg-start">
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+          <a class="text-dark" href="http://iparla.iutbayonne.univ-pau.fr/~mvdfigueired/SunnyPath/API/">Documentation WebService SunnyPath</a>
+        </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+          © 2021 (NO)Copyright:
+          <a class="text-dark" href="https://sohny64.itch.io/">Miguel Viegas</a> et <a class="text-dark" href="https://romains.itch.io/">Romain Salha</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+    </body>
 
-  </html>
+    </html>
 
-  <script>
+    <script>
